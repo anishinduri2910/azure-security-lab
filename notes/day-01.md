@@ -13,8 +13,7 @@ Created two resource groups (rg-lab-dev and rg-lab-prod), two test users (alice.
 Gave sg-lab-readers the Reader role on rg-lab-dev only. Signed in as Alice in a private window:
 - She could see rg-lab-dev.
 - She could not see rg-lab-prod.
-- She tried to create a storage account. The form opened, but validation failed and nothing was created, because Reader allows viewing only, not creating.
-This is least privilege working: access only where it was granted.
+- She tried to create a storage account from inside rg-lab-dev. Azure refused with AuthorizationFailed: the client does not have authorization to perform 'Microsoft.Resources/deployments/validate/action' over the resource group scope. This confirms Reader is view-only. (An earlier attempt had failed for a different reason, an unregistered resource provider, so it had not proven this on its own.)
 
 ## Test 2: Reader at subscription scope (the mistake)
 Assigned Reader to the same group at subscription scope. Alice could then see rg-lab-prod as well. Nothing changed on prod itself. The permission was inherited from the subscription. One assignment at too high a scope exposed a whole environment.
